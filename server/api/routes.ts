@@ -6,13 +6,14 @@ const fernetService = new FernetService();
 
 const SECRET_KEY_ENV_NAME_REGEX = /^[A-Z0-9_]+_ENCRYPTION_KEY$/;
 
-const getAvailableSecretKeyEnvNames = (): string[] => {
+const getAvailableSecretKeyEnvNames = (): { name: string; value: string }[] => {
   // Values come from `dotenv.config()` in `server/server.ts`.
   // Filter to "secret key env vars" (e.g. APP_DEV_ENCRYPTION_KEY, AUTH_DEV_ENCRYPTION_KEY).
   return Object.keys(process.env)
     .filter((k) => SECRET_KEY_ENV_NAME_REGEX.test(k))
     .filter((k) => !!process.env[k]?.trim())
-    .sort();
+    .map((k) => ({ name: k, value: process.env[k]!.trim() }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 };
 
 const isAvailableSecretKeyEnvName = (value: string): boolean => {

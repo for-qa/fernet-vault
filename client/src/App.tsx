@@ -5,8 +5,10 @@ const API_BASE = 'http://localhost:3001/api';
 
 type Tab = 'generate' | 'create' | 'decode';
 
+type SecretOption = { name: string; value: string };
+
 type SecretOptionsResponse = {
-  options?: string[];
+  options?: SecretOption[];
 };
 
 function App() {
@@ -15,7 +17,7 @@ function App() {
   // State
   const [secret, setSecret] = useState('');
   const [secretKeyEnv, setSecretKeyEnv] = useState<string>('');
-  const [secretKeyOptions, setSecretKeyOptions] = useState<string[]>(['APP_DEV_ENCRYPTION_KEY', 'APP_STAGE_ENCRYPTION_KEY']);
+  const [secretKeyOptions, setSecretKeyOptions] = useState<SecretOption[]>([]);
   const [message, setMessage] = useState('');
   const [tokenInput, setTokenInput] = useState('');
   
@@ -45,6 +47,15 @@ function App() {
   const clearResults = () => {
     setResult(null);
     setError(null);
+  };
+
+  const handleDoAnother = () => {
+    clearResults();
+    setMessage('');
+    setTokenInput('');
+    if (!secretKeyEnv) {
+      setSecret('');
+    }
   };
 
   const switchTab = (tab: Tab) => {
@@ -174,14 +185,20 @@ function App() {
                 id="create-secret-env"
                 value={secretKeyEnv}
                 onChange={(e) => {
-                  setSecretKeyEnv(e.target.value);
-                  setSecret('');
+                  const selectedName = e.target.value;
+                  setSecretKeyEnv(selectedName);
+                  if (selectedName) {
+                    const opt = secretKeyOptions.find(o => o.name === selectedName);
+                    if (opt) setSecret(opt.value);
+                  } else {
+                    setSecret('');
+                  }
                 }}
               >
                 <option value="">Manual entry</option>
                 {secretKeyOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
+                  <option key={opt.name} value={opt.name}>
+                    {opt.name}
                   </option>
                 ))}
               </select>
@@ -222,14 +239,20 @@ function App() {
                 id="decode-secret-env"
                 value={secretKeyEnv}
                 onChange={(e) => {
-                  setSecretKeyEnv(e.target.value);
-                  setSecret('');
+                  const selectedName = e.target.value;
+                  setSecretKeyEnv(selectedName);
+                  if (selectedName) {
+                    const opt = secretKeyOptions.find(o => o.name === selectedName);
+                    if (opt) setSecret(opt.value);
+                  } else {
+                    setSecret('');
+                  }
                 }}
               >
                 <option value="">Manual entry</option>
                 {secretKeyOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
+                  <option key={opt.name} value={opt.name}>
+                    {opt.name}
                   </option>
                 ))}
               </select>
@@ -267,9 +290,14 @@ function App() {
 
       {result && (
         <div className="result-box fade-in">
-          <button type="button" className="copy-btn" onClick={copyToClipboard} title="Copy to clipboard">
-            Copy
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem', position: 'absolute', top: '1rem', right: '1rem' }}>
+            <button type="button" className="copy-btn" style={{ position: 'relative', top: 0, right: 0 }} onClick={copyToClipboard} title="Copy to clipboard">
+              Copy
+            </button>
+            <button type="button" className="copy-btn" style={{ position: 'relative', top: 0, right: 0 }} onClick={handleDoAnother} title="Start another operation">
+              Do Another
+            </button>
+          </div>
           <div className="label">{resultLabel}</div>
           <div className="value">{result}</div>
         </div>
