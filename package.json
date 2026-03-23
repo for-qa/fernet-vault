@@ -1,0 +1,21 @@
+{
+  "name": "fernet-vault",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev:server": "yarn workspace server dev",
+    "dev:client": "yarn workspace client dev",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "build:client": "yarn workspace client build",
+    "lint:client": "yarn workspace client lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "rimraf": "^6.1.3"
+  }
+}
