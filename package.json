@@ -2,6 +2,7 @@
   "name": "fernet-vault",
   "version": "1.0.0",
   "private": true,
+  "author": "for-qa",
   "license": "MIT",
   "workspaces": [
     "client",
