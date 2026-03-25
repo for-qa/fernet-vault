@@ -74,8 +74,8 @@ yarn dev
 ```
 
 This will start:
-- **Express Backend**: Running on `http://localhost:3001`
-- **Vite Frontend UI**: Running on `http://localhost:5173` (or whatever secondary port Vite chooses automatically)
+- **Express Backend**: Running on `http://localhost:8102`
+- **Vite Frontend UI**: Running on `http://localhost:8103` (or whatever secondary port Vite chooses automatically)
 
 Simply open up the generated frontend URL in your web browser to use the application!
 
