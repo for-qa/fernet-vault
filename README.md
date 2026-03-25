@@ -107,3 +107,7 @@ If you find this project helpful and want to support its continued development, 
 This project is licensed under the [MIT License](LICENSE). 
 
 Under the MIT License, anyone who uses, copies, or modifies this code must include your original copyright notice, ensuring you always receive credit for your work.
+
+---
+
+_For professional inquiries, connect on [LinkedIn](https://www.linkedin.com/in/gairik-singha/)._
